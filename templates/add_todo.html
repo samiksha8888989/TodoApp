@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Todo</title>
+</head>
+<body>
+<h2>Add Todo...</h2>
+  <form method="post"
+        {% if obj_todo %}
+        action="{% url 'update_todo' %}"
+        {% endif %}
+  >
+    {% csrf_token %}
+    <input type="hidden" name="todo_id" value="{{obj_todo.id}}">
+    <label for="title_input">Title:</label>
+    <input id="title_input" name="title" width="100" type="text" value="{{obj_todo.title}}">
+    <br><br>
+    <label for="description_textarea">Description:</label>
+    <textarea id="description_textarea" name="description">{{obj_todo.description}}</textarea>
+    <br><br>
+    <input type="submit">
+  </form>
+</body>
+</html>

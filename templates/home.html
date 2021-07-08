@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home Page</title>
+</head>
+<body>
+  <h2>Todo App</h2>
+  <a href="{% url 'todo_add' %}">Add New Todo</a>
+  <br><br>
+  {% for item in queryset_note %}
+  <h3>
+    <a href="{% url 'update_todo' %}?todo_id={{item.id}}">
+    ({{item.id}}) Title: {{item.title}}
+    </a>
+    <a href="{% url 'todo_completed' %}?todo_id={{item.id}}">
+    (Set Completed)
+    </a>
+  </h3>
+  <h4>Description: {{item.description}}</h4>
+  <br>
+  {% endfor %}
+</body>
+</html>

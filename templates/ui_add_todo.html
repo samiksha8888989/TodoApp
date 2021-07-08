@@ -1,0 +1,376 @@
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" type="image/png"
+        href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+  <meta name="apple-mobile-web-app-title" content="CodePen">
+
+  <link rel="shortcut icon" type="image/x-icon"
+        href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+
+  <link rel="mask-icon" type=""
+        href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg"
+        color="#111">
+
+
+  <title>CodePen - To do list w/ LocalStorage 💡🗃 | #JS</title>
+
+
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+:root {
+  --bc-main: #e3e3e3;
+  --bc-wht: #fff;
+  --bc-blk: #000;
+  --primary-dark: #1a171d;
+  --font: "Poppins", sans-serif;
+  --font-ct: #b8b8b8;
+  --ease: all 0.4s ease-in-out;
+}
+
+body {
+  background-color: var(--bc-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.dashboard {
+  background-color: #0e0b11;
+  height: 500px;
+  width: 1000px;
+  font-family: var(--font);
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dashboard-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 35%;
+  min-width: 344px;
+  padding: 25px;
+  background-color: var(--primary-dark);
+}
+.dashboard-right {
+  position: relative;
+  height: 100%;
+  flex: 1;
+}
+
+.left-header h3 {
+  color: #f8f8f8;
+  font-size: 1.3em;
+}
+.left-task {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-input {
+  padding: 12px 15px;
+  background-color: #f7f7f726;
+  font-family: inherit;
+  border: none;
+  border-radius: 2px;
+  color: var(--font-ct);
+  margin-bottom: 0.5em;
+  transition: var(--ease);
+}
+.task-input:focus {
+  transition: var(--ease);
+  background-color: var(--bc-wht);
+  color: var(--primary-dark);
+}
+.task-label {
+  color: #d2cfcf;
+  font-family: inherit;
+  font-size: 0.8em;
+  margin-bottom: 0.3em;
+}
+.task-item {
+  margin: 1em 0;
+  display: flex;
+  flex-direction: column;
+}
+.task-add {
+  padding: 10px;
+  outline: none;
+  background: #ffe6a7;
+  font-family: inherit;
+  border: none;
+  font-size: 0.9em;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.task-add:hover {
+  background-color: #ffdf8f;
+}
+
+.right-list {
+  padding: 20px;
+  height: 100%;
+  overflow: scroll;
+}
+.right-list::-webkit-scrollbar {
+  display: none;
+}
+.right-list h3 {
+  color: #b8b8b8;
+  margin-bottom: 1em;
+  font-size: 1em;
+}
+
+.list-flex {
+  display: flex;
+  flex-direction: column;
+}
+.list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+  background-color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85em;
+  color: var(--bc-wht);
+  transition: var(--ease);
+}
+.list-item:hover {
+  background-color: #f7f7f71a;
+  transition: var(--ease);
+}
+.list-item-type {
+  padding: 3px 11px;
+  border-radius: 100px;
+  background-color: #ffda6d;
+  color: var(--primary-dark);
+  font-size: 0.84em;
+}
+.list-item-value {
+  width: 200px;
+}
+.list-item-remove {
+  display: flex;
+}
+.list-item-remove img {
+  height: 20px;
+  width: 30px;
+}
+.list-item-remove:hover {
+  color: #ff4646;
+  cursor: pointer;
+}
+
+.verify {
+  position: absolute;
+  width: 360px;
+  right: 15px;
+  bottom: 15px;
+  background-color: var(--bc-main);
+  border-radius: 4px;
+  display: none;
+  padding: 15px 10px;
+  align-items: center;
+  font-size: 0.84em;
+  color: var(--primary-dark);
+}
+.verify-btns {
+  margin-left: auto;
+}
+.verify-btn {
+  margin: 0 0.25em;
+  padding: 4px 10px;
+  color: var(--primary-dark);
+  background-color: #cacaca;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.verify-btn:hover {
+  background-color: #d7d7d7;
+}
+
+  </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+
+  </script>
+
+
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+
+  </script>
+
+
+</head>
+
+<body translate="no" data-new-gr-c-s-check-loaded="14.1018.0" data-gr-ext-installed="">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
+
+<div class="dashboard">
+  <div class="dashboard-left">
+    <div class="left-header">
+      <h3>Create a Todo!</h3>
+
+    </div>
+    <div class="left-task">
+      <form method="post" action="{% url 'todo_add' %}">
+        {% csrf_token %}
+        <div class="task-info task-item">
+          <label for="" class="task-label">Title</label>
+          <input type="text" name="title" class="task-input" placeholder="Go to the gym...">
+          <label for="" class="task-label">Description</label>
+          <input type="text" name="description" class="task-input" placeholder="Health, Education..">
+        </div>
+        <input class="task-add" value="Add Todo" type="submit"/>
+      </form>
+    </div>
+  </div>
+  <div class="dashboard-right">
+    <div class="right-list">
+      <h3 class="right-list-h3">Up coming task 101.</h3>
+      <div class="list-flex">
+        {% for item in queryset_note %}
+        <div class="list-item">
+          <div class="list-item-value">{{item.title}}</div>
+          <div class="list-item-type" style="background-color: rgb(226, 187, 255);">{{item.description}}</div>
+          <div class="list-item-remove"><a href="{% url 'todo_completed' %}?todo_id={{item.id}}"><img src="https://assets.codepen.io/2629920/delete.svg"></a></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <span class="verify">
+			<span class="verify-question">Sure you want to delete this task?</span>
+			<span class="verify-btns">
+				<span class="verify-btn" data-delete="yes">Yes</span>
+				<span class="verify-btn" data-delete="No">No</span>
+			</span>
+
+		</span>
+  </div>
+</div>
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-8216c69d01441f36c0ea791ae2d4469f0f8ff5326f00ae2d00e4bb7d20e24edb.js"></script>
+
+
+<script id="rendered-js">
+const input = document.querySelector(".task-info-input");
+const type = document.querySelector(".task-type-input");
+const addTask = document.querySelector(".task-add");
+const listValue = document.querySelector(".list-item-value");
+const list = document.querySelector(".list-flex");
+const listHdr = document.querySelector(".right-list-h3");
+const verifyContainer = document.querySelector(".verify");
+const verifyBtn = document.querySelectorAll(".verify-btn");
+const verifyBtns = document.querySelector(".verify-btns");
+
+let typeBC = ["#ffecb5", "#e2bbff", "#b6ffee", "#ffb4c0", "#bbfaff"];
+let typeCurrentC = [];
+let slate = [];
+let localData = localStorage.getItem("slate");
+if (localData) {
+  slate = JSON.parse(localStorage.getItem("slate"));
+  if (slate.length == 0) {
+    listHdr.innerHTML = "Add a task to begin.";
+  } else {
+    maker();
+    listHdr.innerHTML = "Up coming task.";
+  }
+}
+
+addTask.addEventListener("click", addToList);
+function addToList() {
+  const inputType = type.value;
+  const inputValue = input.value;
+  const typeColor = typeBC[Math.floor(Math.random() * typeBC.length)];
+  if (inputValue === "" || inputType === "") {
+    return alert("enter value");
+  }
+  const obj = {
+    value: inputValue,
+    type: inputType,
+    labelColor: typeColor };
+
+  const val = slate.length;
+  slate.unshift(obj);
+  input.value = "";
+  type.value = "";
+  createList(obj, val);
+  input.focus();
+  listHdr.innerHTML = "Up coming task.";
+  maker();
+  localStorage.setItem("slate", JSON.stringify(slate));
+}
+function maker() {
+  list.innerHTML = "";
+  slate.forEach((element, index) => {
+    createList(element, index);
+  });
+}
+function createList(el, indx) {
+  const itemDiv = document.createElement("div");
+  itemDiv.classList.add("list-item");
+  list.append(itemDiv);
+  const valueDiv = document.createElement("div");
+
+  valueDiv.classList.add("list-item-value");
+  valueDiv.textContent = `${el.value}`;
+  const typeDiv = document.createElement("div");
+  typeDiv.style.backgroundColor = el.labelColor;
+  typeDiv.classList.add("list-item-type");
+  typeDiv.textContent = `${el.type}`;
+  const removeDiv = document.createElement("div");
+  removeDiv.classList.add("list-item-remove");
+  removeDiv.innerHTML = `<img src="https://assets.codepen.io/2629920/delete.svg" />`;
+  itemDiv.append(valueDiv);
+  itemDiv.append(typeDiv);
+  itemDiv.append(removeDiv);
+  removeDiv.addEventListener("click", () => {
+    itemDiv.style.backgroundColor = "#ffffff45";
+    verifyContainer.style.display = "flex";
+    verifyBtns.addEventListener("click", e => {
+      const click = e.target.closest(".verify-btn");
+      if (!click) return;
+      const dataSet = click.dataset.delete;
+
+      if (dataSet === "yes") {
+        itemDiv.remove();
+        slate.splice(indx, 1);
+      } else {
+        verifyContainer.style.display = "none";
+      }
+      if (slate.length === 0) {
+        listHdr.innerHTML = "Add a task to begin.";
+      }
+      verifyContainer.style.display = "none";
+      itemDiv.style.backgroundColor = "var(--primary-dark)";
+      localStorage.setItem("slate", JSON.stringify(slate));
+    });
+  });
+  localStorage.setItem("slate", JSON.stringify(slate));
+}
+//# sourceURL=pen.js
+
+</script>
+
+
+</body>
+</html>
